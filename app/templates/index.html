@@ -131,11 +131,13 @@
         {% if tech_stack %}
         <!-- Tech Stack Results -->
         <div class="w-full mt-20 fade-in delay-200">
-            <h3 class="text-white font-medium mb-6 flex items-center gap-2">
+            <h3 id="tech-stack-header" class="text-white font-medium mb-6 flex items-center gap-2 cursor-pointer group select-none">
+                <span id="tech-stack-icon" class="iconify transition-transform duration-300" data-icon="lucide:chevron-right" data-width="18"></span>
                 <span class="iconify" data-icon="lucide:cpu" data-width="18"></span>
                 Detected Technology
+                <span class="text-xs text-neutral-600 ml-2 group-hover:text-neutral-500 transition-colors">(Click to expand)</span>
             </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div id="tech-stack-content" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 hidden">
                 {% for category, techs in tech_stack.items() %}
                 <div
                     class="p-6 rounded-xl bg-neutral-900/30 border border-white/5 hover:border-white/10 hover:bg-neutral-900/50 transition-all duration-300">

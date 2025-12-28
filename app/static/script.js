@@ -151,14 +151,28 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
 
                 if (usedFallback) {
-                    const userFilename = prompt("Enter filename to save (browser does not support picking folder):", suggestedName);
-                    if (userFilename) {
-                        // Ensure .md extension
-                        const finalName = userFilename.endsWith('.md') ? userFilename : userFilename + '.md';
-                        downloadBlob(markdownContent, finalName);
-                    }
+                    // Fallback to simple download without prompt
+                    downloadBlob(markdownContent, suggestedName);
                 }
             });
         }
+    }
+
+    // Collapsible Tech Stack Logic
+    const techStackHeader = document.getElementById('tech-stack-header');
+    const techStackContent = document.getElementById('tech-stack-content');
+    const techStackIcon = document.getElementById('tech-stack-icon');
+
+    if (techStackHeader && techStackContent && techStackIcon) {
+        techStackHeader.addEventListener('click', () => {
+            const isHidden = techStackContent.classList.contains('hidden');
+            if (isHidden) {
+                techStackContent.classList.remove('hidden');
+                techStackIcon.style.transform = 'rotate(90deg)';
+            } else {
+                techStackContent.classList.add('hidden');
+                techStackIcon.style.transform = 'rotate(0deg)';
+            }
+        });
     }
 });
