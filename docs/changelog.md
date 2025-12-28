@@ -2,6 +2,10 @@
 
 All notable changes to the WebCrawler project.
 
+## [v2.1.1] - 2025-12-28
+### Fixed
+-   **Dependencies**: Added `setuptools` to `requirements.txt` to fix `ModuleNotFoundError: No module named 'pkg_resources'` required by `python-Wappalyzer`.
+
 ## [v2.1.0] - 2025-12-28
 ### Added
 -   **Deployment**: Support for Vercel Serverless Functions via `api/index.py` and `vercel.json`.
