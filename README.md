@@ -1,4 +1,4 @@
-# 🕷️ WebCrawler (v2.0)
+# 🪏 WebCrawler (v2.0)
 
 <div align="center" markdown="1">
 
@@ -45,8 +45,8 @@
 
 1.  **Clone the Repository**
     ```bash
-    git clone https://github.com/yourusername/markdown-crawler.git
-    cd markdown-crawler
+    git clone https://github.com/raksitbell/webcrawler.git
+    cd webcrawler
     ```
 
 2.  **Install Dependencies**
