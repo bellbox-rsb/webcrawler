@@ -1,0 +1,278 @@
+:root {
+    /* Color Palette - Deep Space & Electric Accents */
+    --bg-dark: #0f172a;
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
+
+    --glass-bg: rgba(30, 41, 59, 0.7);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.05);
+
+    --primary-color: #8b5cf6;
+    --secondary-color: #06b6d4;
+    --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+}
+
+body {
+    background: var(--bg-dark);
+    background-image: var(--bg-gradient);
+    min-height: 100vh;
+    color: var(--text-main);
+    overflow-x: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Atmospheric Glows */
+.blob {
+    position: absolute;
+    filter: blur(100px);
+    z-index: -1;
+    opacity: 0.5;
+    animation: pulse 10s infinite alternate;
+}
+
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+}
+
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, var(--secondary-color) 0%, transparent 70%);
+    animation-delay: -5s;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        opacity: 0.4;
+    }
+
+    100% {
+        transform: scale(1.1);
+        opacity: 0.6;
+    }
+}
+
+/* Glass Component Overrides */
+.glass-card {
+    background: var(--glass-bg) !important;
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-top: 1px solid var(--glass-highlight);
+}
+
+.glass-input {
+    background: rgba(2, 6, 23, 0.5) !important;
+    border: 1px solid var(--glass-border) !important;
+    color: var(--text-main) !important;
+}
+
+.glass-input:focus {
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.25) !important;
+    border-color: var(--primary-color) !important;
+}
+
+.glass-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* Typography Gradient */
+.gradient-text {
+    background: linear-gradient(to right, #fff, #bfdbfe);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Button Overrides */
+.btn-primary {
+    background: var(--accent-gradient) !important;
+    border: none;
+    font-weight: 600;
+}
+
+.btn-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+}
+
+/* Tech Card */
+.tech-card {
+    transition: all 0.3s ease;
+}
+
+.tech-card:hover {
+    border-color: var(--secondary-color) !important;
+    background: rgba(30, 41, 59, 0.6) !important;
+    transform: translateY(-3px);
+}
+
+/* Toast Notification (Custom Implementation) */
+/* Bootstrap has Toasts, but we are using our custom logic in script.js which expects these classes */
+#toast-container {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast {
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    min-width: 320px;
+    transform: translateX(120%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.toast.show {
+    transform: translateX(0);
+}
+
+.toast.error {
+    border-left: 4px solid var(--error);
+}
+
+.toast.success {
+    border-left: 4px solid var(--success);
+}
+
+/* Loading Overlay Enhanced */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    /* Slightly more transparent to see blur */
+    backdrop-filter: blur(15px);
+    z-index: 3000;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.loading-overlay.active {
+    display: flex;
+    opacity: 1;
+}
+
+.loader-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+/* Dual Ring Spinner */
+.spinner-border {
+    width: 5rem;
+    height: 5rem;
+    border-width: 0.25rem;
+    color: var(--primary-color);
+    filter: drop-shadow(0 0 10px var(--primary-color));
+}
+
+#loading-text {
+    margin-top: 1.5rem;
+    color: var(--text-main);
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    animation: pulse 1.5s infinite;
+}
+
+/* Responsive Design Overrides */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .glass-card {
+        padding: 1.5rem;
+        /* Reduced padding on mobile */
+    }
+
+    .card-body {
+        padding: 0 !important;
+        /* Reset bootstrap padding to rely on glass-card padding */
+    }
+
+    h1.display-4 {
+        font-size: 2.5rem;
+        /* Smaller title on mobile */
+    }
+
+    .lead {
+        font-size: 1rem;
+    }
+
+    /* Gemini Bubble removed */
+
+    /* Adjust Input Group for Mobile */
+    .input-group-lg>.form-control,
+    .input-group-lg>.btn {
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+    }
+}/* QuillJS Dark Mode Overrides */
+.ql-toolbar {
+    background-color: var(--glass-bg);
+    border-color: var(--glass-border) !important;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.ql-container {
+    background-color: rgba(2, 6, 23, 0.5);
+    /* Matching glass-input */
+    border-color: var(--glass-border) !important;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    color: var(--text-main);
+    font-size: 1.1rem;
+}
+
+.ql-toolbar .ql-stroke {
+    stroke: var(--text-muted);
+}
+
+.ql-toolbar .ql-fill {
+    fill: var(--text-muted);
+}
+
+.ql-toolbar button:hover .ql-stroke {
+    stroke: var(--primary-color);
+}
+
+.ql-toolbar button:hover .ql-fill {
+    fill: var(--primary-color);
+}
+
+.ql-editor {
+    min-height: 300px;
+}
