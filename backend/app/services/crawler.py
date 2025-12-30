@@ -1,6 +1,6 @@
 import requests
 from bs4 import BeautifulSoup, Tag
-from markdownify import markdownify as md
+# from markdownify import markdownify as md # Removed as we are returning HTML now
 import builtwith
 from Wappalyzer import Wappalyzer, WebPage
 from urllib.parse import urlparse, urljoin
@@ -17,7 +17,8 @@ def crawl_url(url: str) -> Dict[str, Any]:
     Returns:
         Dict[str, Any]: A dictionary containing:
             - success (bool): Whether the operation was successful.
-            - markdown (Optional[str]): The converted markdown content.
+            - success (bool): Whether the operation was successful.
+            - html (Optional[str]): The cleaned HTML content.
             - tech_stack (Optional[Dict]): Detected technologies.
             - url (str): The provided URL.
             - error (Optional[str]): Error message if failed.
@@ -44,11 +45,12 @@ def crawl_url(url: str) -> Dict[str, Any]:
         _remove_clutter(soup)
 
         # 5. Extract Main Content
-        markdown_content = _extract_markdown(soup)
+        html_content, title = _extract_html(soup)
 
         return {
             'success': True,
-            'markdown': markdown_content,
+            'html': html_content,
+            'title': title,
             'tech_stack': tech_stack,
             'url': url
         }
@@ -157,9 +159,12 @@ def _remove_clutter(soup: BeautifulSoup):
         script.decompose()
 
 
-def _extract_markdown(soup: BeautifulSoup) -> str:
-    """Extracts markdown from the main content area."""
+def _extract_html(soup: BeautifulSoup) -> (str, str):
+    """Extracts cleaned HTML from the main content area."""
     content = soup.find('main') or soup.find('article') or soup.find('div', {'id': 'content'}) or soup.body
+    
+    title = soup.title.string if soup.title else "Untitled"
+
     if content:
-        return md(str(content), heading_style="ATX")
-    return md(str(soup), heading_style="ATX")
+        return str(content), title
+    return str(soup), title
