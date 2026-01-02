@@ -72,8 +72,8 @@ npm run dev
 
 ## 📚 Documentation
 
--   [**Tech Stack Deep Dive**](docs/tech.md): Architecture and design patterns.
--   [**Changelog**](docs/changelog.md): Version history.
+-   [**Tech Stack Deep Dive**](frontend/public/docs/tech.md): Architecture and design patterns.
+-   [**Changelog**](frontend/public/docs/changelog.md): Version history.
 
 ---
 

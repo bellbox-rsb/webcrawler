@@ -2,6 +2,13 @@
 
 All notable changes to the WebCrawler project.
 
+## [v3.1.0] - 2025-12-31
+### Added
+-   **Import/Export**: Bi-directional Markdown and HTML table support.
+-   **Media**: YouTube embed support in Editor and Markdown export.
+-   **Deep Tech Detection**: Integrated comprehensive technology fingerprinting (100k+ patterns).
+-   **Documentation**: Consolidated technical docs into frontend.
+
 ## [v3.0.0] - 2025-12-30
 ### Major Release
 -   **Architecture**: Decoupled Frontend (React) and Backend (Flask).

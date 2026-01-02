@@ -39,6 +39,36 @@ class TestCrawler(unittest.TestCase):
         # Check for normalized tech stack
         self.assertEqual(result['tech_stack']['web-servers'][0]['name'], 'Nginx')
         
+        # Check for media extraction
+        self.assertIn('media', result)
+        self.assertIsInstance(result['media']['images'], list)
+        self.assertIsInstance(result['media']['videos'], list)
+        self.assertIsInstance(result['media']['links'], list)
+
+    @patch('app.services.crawler.requests.get')
+    def test_crawl_url_youtube_embed(self, mock_get):
+        # Mock HTML with YouTube link
+        mock_response = MagicMock()
+        html_content = '<html><body><p>Check this out:</p><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">Video</a></body></html>'
+        mock_response.content = html_content.encode('utf-8')
+        mock_response.raise_for_status.return_value = None
+        mock_get.return_value = mock_response
+
+        # Mock dependencies
+        with patch('app.services.crawler.builtwith.builtwith', return_value={}), \
+             patch('app.services.crawler.Wappalyzer.latest'), \
+             patch('app.services.crawler.WebPage.new_from_url'):
+            
+            result = crawl_url("https://example.com")
+            
+            self.assertTrue(result['success'])
+            # Check if iframe is present and correct (wrapped in div)
+            self.assertIn('<div data-youtube-video="">', result['html'])
+            self.assertIn('<iframe', result['html'])
+            self.assertIn('src="https://www.youtube.com/embed/dQw4w9WgXcQ"', result['html'])
+            self.assertNotIn('<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"', result['html'])
+
+        
     @patch('app.services.crawler.requests.get')
     def test_crawl_url_connection_error(self, mock_get):
         mock_get.side_effect = requests.exceptions.ConnectionError("Connection Refused")

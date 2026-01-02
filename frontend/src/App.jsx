@@ -1,8 +1,10 @@
-import { useState } from 'react'
-import { Layers, Github, FileText, Clipboard, Download, RotateCcw, AlertTriangle, ShieldCheck, Zap, Terminal, Minus, Plus, Check } from 'lucide-react'
+import { useState, useRef } from 'react'
+import { Layers, Github, FileText, Clipboard, Download, RotateCcw, AlertTriangle, ShieldCheck, Zap, Terminal, Minus, Plus, Check, Upload, FileCode } from 'lucide-react'
+import { marked } from 'marked'
 import axios from 'axios'
 import { SearchForm } from './components/SearchForm'
 import { TechStack } from './components/TechStack'
+import { MediaGallery } from './components/MediaGallery'
 import { Editor } from './components/Editor'
 
 function App() {
@@ -12,6 +14,8 @@ function App() {
   const [error, setError] = useState(null)
   const [editorContent, setEditorContent] = useState('')
   const [markdownContent, setMarkdownContent] = useState('')
+  const [htmlContent, setHtmlContent] = useState('')
+  const fileInputRef = useRef(null)
 
   const handleCrawl = async () => {
     if (!url) return
@@ -26,6 +30,30 @@ function App() {
       if (result.success) {
         setData(result)
         setEditorContent(result.html)
+        setHtmlContent(result.html)
+        // Convert to markdown immediately for export validity
+        // Note: Editor will also do this on mount/update, but this ensures state is ready
+        try {
+          const TurndownService = (await import('turndown')).default
+          const { gfm } = (await import('turndown-plugin-gfm'))
+          const td = new TurndownService({ headingStyle: 'atx', codeBlockStyle: 'fenced' })
+          td.use(gfm)
+
+          // Custom Rule: Preserve YouTube Iframes
+          td.addRule('youtube', {
+            filter: (node, options) => {
+              return node.nodeName === 'DIV' && node.hasAttribute('data-youtube-video')
+            },
+            replacement: (content, node, options) => {
+              const iframe = node.querySelector('iframe')
+              return iframe ? iframe.outerHTML : ''
+            }
+          })
+
+          setMarkdownContent(td.turndown(result.html))
+        } catch (e) {
+          console.error("Initial MD conversion failed", e)
+        }
       } else {
         setError(result.error || 'Failed to crawl URL')
       }
@@ -39,6 +67,7 @@ function App() {
   const handleEditorUpdate = (html, markdown) => {
     // markdownContent will be used for export/copy
     setMarkdownContent(markdown)
+    setHtmlContent(html)
   }
 
   const handleCopy = () => {
@@ -55,6 +84,44 @@ function App() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  }
+
+  const handleDownloadHTML = () => {
+    const blob = new Blob([htmlContent], { type: 'text/html' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'crawled_content.html';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const handleFileChange = async (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      const content = e.target.result
+
+      // If it's markdown, convert to HTML for Tiptap
+      // We assume .md extension or just try to parse
+      if (file.name.endsWith('.md')) {
+        const html = await marked.parse(content)
+        setEditorContent(html)
+      } else {
+        // Assume HTML or plain text
+        setEditorContent(content)
+      }
+    }
+    reader.readAsText(file) // Tiptap takes string content
+
+    // Reset input
+    event.target.value = ''
   }
 
   return (
@@ -115,6 +182,9 @@ function App() {
           <>
             <TechStack data={data.tech_stack} />
 
+            {/* Media Gallery */}
+            <MediaGallery data={data.media} />
+
             {/* Editor Section */}
             <div className="w-full mt-12 fade-in delay-300 pb-20">
               <div className="flex justify-between items-center mb-6">
@@ -126,9 +196,23 @@ function App() {
                   <button onClick={handleCopy} className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-xs text-white transition-colors flex items-center gap-2">
                     <Clipboard size={14} /> Copy MD
                   </button>
+
                   <button onClick={handleDownload} className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-xs text-white transition-colors flex items-center gap-2">
                     <Download size={14} /> Save MD
                   </button>
+                  <button onClick={handleDownloadHTML} className="px-3 py-1.5 rounded-lg border border-white/10 bg-white/5 hover:bg-white/10 text-xs text-white transition-colors flex items-center gap-2">
+                    <FileCode size={14} /> Save HTML
+                  </button>
+                  <button onClick={handleImportClick} className="px-3 py-1.5 rounded-lg border border-white/10 bg-indigo-500/10 text-indigo-400 hover:bg-indigo-500/20 text-xs transition-colors flex items-center gap-2">
+                    <Upload size={14} /> Import
+                  </button>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleFileChange}
+                    className="hidden"
+                    accept=".md,.html,.txt"
+                  />
                   <button onClick={() => { setData(null); setUrl(''); }} className="px-3 py-1.5 rounded-lg border border-white/10 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 text-xs transition-colors flex items-center gap-2">
                     <RotateCcw size={14} /> Reset
                   </button>
