@@ -23,4 +23,4 @@ def crawl():
     if result['success']:
         return jsonify(result), 200
     else:
-        return jsonify(result), 500
+        return jsonify(result), result.get('status_code', 500)

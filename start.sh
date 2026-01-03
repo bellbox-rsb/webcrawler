@@ -9,7 +9,7 @@ trap cleanup SIGINT SIGTERM EXIT
 
 if command -v docker &> /dev/null; then
     echo "🐳 Docker found. Starting with Docker Compose..."
-    echo "Backend: http://localhost:5000"
+    echo "Backend: http://localhost:5001"
     echo "Frontend: http://localhost:5173"
     docker compose up --build
 else
@@ -21,8 +21,10 @@ else
     pip install -r requirements.txt > /dev/null 2>&1
     export FLASK_APP=run.py
     export FLASK_ENV=development
-    export FLASK_DEBUG=1
-    flask run --host=0.0.0.0 --port=5000 &
+    # export FLASK_DEBUG=1
+    # flask run --host=0.0.0.0 --port=5000 &
+    export PORT=5000
+    python3 run.py &
     BACKEND_PID=$!
     cd ..
 

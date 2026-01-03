@@ -36,5 +36,5 @@ app = create_app()
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
-    kill_port(port)
-    app.run(debug=True, port=port)
+    # kill_port(port)
+    app.run(debug=False, port=port, host='0.0.0.0')
