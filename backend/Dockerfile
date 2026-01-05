@@ -15,8 +15,8 @@ COPY . .
 
 EXPOSE 5000
 
-ENV FLASK_APP=run.py
-# Set to 'production' in proiduction, but keeping development for now as requested for ease 
-ENV FLASK_DEBUG=1
+# Production configuration
+# ENV FLASK_DEBUG=1
 
-CMD ["flask", "run", "--host=0.0.0.0"]
+# Use gunicorn for production
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
