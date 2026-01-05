@@ -13,10 +13,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE 5000
-
 # Production configuration
 # ENV FLASK_DEBUG=1
 
 # Use gunicorn for production
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "run:app"]
+# Gunicorn will bind to the port specified by the PORT environment variable.
+CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:$PORT run:app"]
