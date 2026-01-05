@@ -46,8 +46,6 @@
     ```bash
     ./start.sh
     ```
-     ./start.sh
-    ```
     This will build and launch both Frontend (`http://localhost:5173`) and Backend (`http://localhost:5000`).
     
     > **Note:** If Docker is not installed, the script automatically falls back to **Manual Mode**, helping you install dependencies and run Flask/Vite directly.
@@ -74,6 +72,8 @@ npm run dev
 
 -   [**Tech Stack Deep Dive**](frontend/public/docs/tech.md): Architecture and design patterns.
 -   [**Changelog**](frontend/public/docs/changelog.md): Version history.
+-   [**Backend Documentation**](backend/README.md): API and Setup details.
+-   [**Frontend Documentation**](frontend/README.md): UI and Component details.
 
 ---
 

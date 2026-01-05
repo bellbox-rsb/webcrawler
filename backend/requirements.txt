@@ -7,3 +7,4 @@ markdown==3.5.1
 python-Wappalyzer
 setuptools
 flask-cors
+gunicorn

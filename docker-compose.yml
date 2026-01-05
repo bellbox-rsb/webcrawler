@@ -6,7 +6,6 @@ services:
     volumes:
       - ./backend:/app
     environment:
-      - FLASK_ENV=development
       - FLASK_DEBUG=1
 
   frontend:
