@@ -2,11 +2,19 @@ from bs4 import BeautifulSoup
 from Wappalyzer import Wappalyzer, WebPage
 from typing import Dict, Set
 
-# Initialize Wappalyzer once (singleton optimization)
-try:
-    _wappalyzer = Wappalyzer.latest()
-except Exception:
-    _wappalyzer = None
+# Initialize Wappalyzer lazily to avoid startup delays
+_wappalyzer = None
+
+def get_wappalyzer():
+    global _wappalyzer
+    if _wappalyzer is None:
+        try:
+            _wappalyzer = Wappalyzer.latest()
+        except Exception as e:
+            print(f"Warning: Could not initialize Wappalyzer: {e}")
+            # Fallback to a basic instance or None
+            _wappalyzer = False # Use False to indicate attempted but failed
+    return _wappalyzer
 
 def analyze_tech_stack(url: str, html: str, headers: dict, soup: BeautifulSoup) -> Dict:
     """
@@ -16,10 +24,11 @@ def analyze_tech_stack(url: str, html: str, headers: dict, soup: BeautifulSoup) 
     
     # 1. Wappalyzer (Reusing fetched content)
     wap_technologies = set()
-    if _wappalyzer:
+    wappalyzer_instance = get_wappalyzer()
+    if wappalyzer_instance:
         try:
             webpage = WebPage(url, html=html, headers=headers)
-            wap_technologies = _wappalyzer.analyze(webpage) or set()
+            wap_technologies = wappalyzer_instance.analyze(webpage) or set()
         except Exception:
             pass
             
