@@ -20,7 +20,7 @@ echo "Deploying to Project: $PROJECT_ID in Region: $REGION"
 
 # 1. Build and Submit Backend
 echo "Building Backend..."
-gcloud builds submit --tag gcr.io/$PROJECT_ID/$BACKEND_SERVICE ./backend
+gcloud builds submit --tag gcr.io/$PROJECT_ID/$BACKEND_SERVICE ./backend --dockerfile backend/Dockerfile
 
 # 2. Deploy Backend
 echo "Deploying Backend..."
@@ -42,7 +42,7 @@ echo "Backend deployed at: $BACKEND_URL"
 # But we need to inject the backend URL into nginx.conf.
 
 echo "Building Frontend..."
-gcloud builds submit --tag gcr.io/$PROJECT_ID/$FRONTEND_SERVICE ./frontend
+gcloud builds submit --tag gcr.io/$PROJECT_ID/$FRONTEND_SERVICE ./frontend --dockerfile frontend/Dockerfile
 
 # 4. Deploy Frontend
 echo "Deploying Frontend..."
