@@ -1,14 +1,17 @@
-# 🪏 WebCrawler (v2.0)
+# 🪏 WebCrawler (v3.0)
 
 <div align="center" markdown="1">
 
-![Version](https://img.shields.io/badge/version-2.0-emerald.svg)
+![Version](https://img.shields.io/badge/version-3.0-emerald.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.9%2B-blueviolet)
+![React](https://img.shields.io/badge/react-19-blue)
+![Python](https://img.shields.io/badge/python-3.11-yellow)
+![Docker](https://img.shields.io/badge/docker-ready-blue)
 
 <p align="center">
-  <b>Turn the Web into Data.</b><br>
-  A premium, AI-ready web crawler that extracts clean Markdown and detects technology stacks.
+  <b>Turn the Web into Editable Content.</b><br>
+  A premium, AI-ready web crawler that extracts clean HTML/Markdown. <br>
+  Now featuring a modern React frontend and Tiptap editor.
 </p>
 
 </div>
@@ -18,63 +21,59 @@
 ## ✨ Core Features
 
 ### 🚀 **Deep Extraction Engine**
--   **Pure Markdown**: Converts chaotic HTML into clean, semantic Markdown suitable for LLM training or notes.
--   **Smart Cleaning**: Automatically removes ads, popups, navigation bars, and footers.
--   **Relative Link Resolution**: Ensures all images and links work by converting relative paths to absolute URLs.
+-   **Intelligent Parsing**: Extracts clean content, removing ads and clutter.
+-   **Clean HTML & Markdown**: Preserves structure for high-fidelity editing.
+-   **Tech Stacks**: Detects frontend frameworks (React, Next.js) and server tech.
 
-### 🧠 **Tech Stack Intelligence**
--   **Heuristic Detection**: Identifies frontend frameworks (React, Vue, Next.js, Tailwind) even when obfuscated.
--   **Server-Side Analysis**: Detects underlying server technologies matches via `builtwith`.
--   **Visual Grid**: Results are displayed in a modern, "Nexus" style grid card layout.
+### ✍️ **Modern Editing Experience**
+-   **Tiptap Editor**: A Notion/Ghost-style headless editor.
+-   **Rich Interactions**: Bubble menus for quick formatting, floating menus for blocks.
+-   **Export Ready**: One-click Copy/Download as Markdown or HTML.
 
-### 🎨 **Premium "Nexus" UI**
--   **Tailwind CSS**: Custom-built dark theme with noise textures and glassmorphism.
--   **Responsive Design**: Fully optimized for Mobile, Tablet, and Desktop.
--   **Interactive Editor**: Integrated **QuillJS** editor to refine your content before export.
-
-### 🛠️ **Developer Extensions**
--   **Vercel Ready**: Configured for instant serverless deployment.
--   **API Structure**: Modular `crawler.py` service easy to integrate into other apps.
--   **Live Docs**: Documentation served directly within the app at `/docs`.
+### 🏗️ **Modern Architecture**
+-   **Frontend**: React (Vite) + Tailwind CSS + Lucide Icons.
+-   **Backend**: Python Flask API (Dockerized).
+-   **Infrastructure**: Fully containerized with Docker Compose.
+-   **Design**: "Nexus" Design System with Deep Mode and Safe Search UI.
 
 ---
 
 ## 🚀 Quick Start
 
-### Local Development
+### 🐳 Using Docker (Recommended)
 
-1.  **Clone the Repository**
+1.  **Start the App**
     ```bash
-    git clone https://github.com/raksitbell/webcrawler.git
-    cd webcrawler
+    ./start.sh
     ```
+    This will build and launch both Frontend (`http://localhost:5173`) and Backend (`http://localhost:5000`).
+    
+    > **Note:** If Docker is not installed, the script automatically falls back to **Manual Mode**, helping you install dependencies and run Flask/Vite directly.
 
-2.  **Install Dependencies**
-    ```bash
-    pip install -r requirements.txt
-    ```
+### 🛠️ Manual Setup
 
-3.  **Run the App**
-    ```bash
-    python run.py
-    ```
-    Access the app at `http://127.0.0.1:5001`.
+**Backend**
+```bash
+cd backend
+pip install -r requirements.txt
+flask run
+```
 
-### ☁️ Deploy to Vercel
-
-This project is configured for Vercel.
-
-1.  Install Vercel CLI: `npm i -g vercel`
-2.  Run `vercel` in the project directory.
+**Frontend**
+```bash
+cd frontend
+npm install
+npm run dev
+```
 
 ---
 
 ## 📚 Documentation
 
-Detailed documentation is available in the `docs` folder or via the **Documentation** link in the app.
-
--   [**Tech Stack Deep Dive**](docs/tech.md): Architecture, libraries, and design patterns.
--   [**Changelog**](docs/changelog.md): History of version updates.
+-   [**Tech Stack Deep Dive**](frontend/public/docs/tech.md): Architecture and design patterns.
+-   [**Changelog**](frontend/public/docs/changelog.md): Version history.
+-   [**Backend Documentation**](backend/README.md): API and Setup details.
+-   [**Frontend Documentation**](frontend/README.md): UI and Component details.
 
 ---
 
