@@ -8,3 +8,4 @@ python-Wappalyzer
 setuptools
 flask-cors
 gunicorn
+gunicorn
