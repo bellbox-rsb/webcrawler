@@ -1,10 +1,49 @@
 <template>
   <div>
     <SiteDetails :metadata="data.metadata" />
-    <TechStack :data="data.tech_stack" />
-    <MediaGallery :data="data.media" />
+    <TechStack v-if="data.tech_stack" :data="data.tech_stack" />
+    <MediaGallery v-if="data.media" :data="data.media" />
 
-    <div class="w-full mt-12 fade-in delay-300 pb-20">
+    <!-- Map Mode Results -->
+    <div v-if="data.internal || data.external" class="w-full mt-12 fade-in delay-300 pb-20">
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Internal Links -->
+        <div class="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 shadow-2xl">
+          <h3 class="text-white font-medium flex items-center gap-2 mb-4">
+            <div class="w-2 h-2 rounded-full bg-emerald-500"></div>
+            Internal Links ({{ data.internal?.length || 0 }})
+          </h3>
+          <div class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div v-for="link in data.internal" :key="link" class="text-sm truncate">
+              <a :href="link" target="_blank" class="text-neutral-400 hover:text-emerald-400 transition-colors">{{ link }}</a>
+            </div>
+            <div v-if="!data.internal?.length" class="text-neutral-600 text-sm italic">No internal links found</div>
+          </div>
+        </div>
+
+        <!-- External Links -->
+        <div class="bg-[#0a0a0a] border border-white/10 rounded-xl p-6 shadow-2xl">
+          <h3 class="text-white font-medium flex items-center gap-2 mb-4">
+            <div class="w-2 h-2 rounded-full bg-indigo-500"></div>
+            External Links ({{ data.external?.length || 0 }})
+          </h3>
+          <div class="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
+            <div v-for="link in data.external" :key="link" class="text-sm truncate">
+              <a :href="link" target="_blank" class="text-neutral-400 hover:text-indigo-400 transition-colors">{{ link }}</a>
+            </div>
+            <div v-if="!data.external?.length" class="text-neutral-600 text-sm italic">No external links found</div>
+          </div>
+        </div>
+      </div>
+       <div class="mt-6 flex justify-center">
+          <button @click="$emit('reset')" class="px-6 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 text-white transition-colors flex items-center gap-2">
+            <RotateCcw :size="16" /> Start Over
+          </button>
+      </div>
+    </div>
+
+    <!-- Crawler Mode Results -->
+    <div v-else class="w-full mt-12 fade-in delay-300 pb-20">
       <div class="flex justify-between items-center mb-6">
         <h3 class="text-white font-medium flex items-center gap-2">
           <FileText :size="18" />

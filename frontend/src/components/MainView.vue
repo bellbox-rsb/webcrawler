@@ -5,7 +5,9 @@
     <SearchForm
       v-model:url="url"
       :loading="loading"
-      @submit="crawl(url)"
+      :mode="mode"
+      @update:mode="mode = $event"
+      @submit="crawl(url, mode)"
     />
 
     <div v-if="error" class="mt-6 w-full max-w-2xl fade-in delay-100">
@@ -30,5 +32,5 @@ import SearchForm from './SearchForm.vue'
 import ResultView from './ResultView.vue'
 import { useCrawler } from '../composables/useCrawler'
 
-const { url, loading, data, error, crawl, reset } = useCrawler()
+const { url, mode, loading, data, error, crawl, reset } = useCrawler()
 </script>

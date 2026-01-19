@@ -1,5 +1,39 @@
 <template>
   <form @submit.prevent="handleSubmit" class="w-full max-w-2xl relative group fade-in delay-100 mb-12">
+    <!-- Mode Switcher -->
+    <div class="flex gap-4 mb-4 justify-center relative z-10">
+      <button 
+        type="button"
+        @click="$emit('update:mode', 'crawl')"
+        :class="[
+          'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300',
+          mode === 'crawl' 
+            ? 'bg-neutral-800 text-white shadow-lg border border-white/10' 
+            : 'text-neutral-500 hover:text-neutral-300'
+        ]"
+      >
+        <div class="flex items-center gap-2">
+          <FileText :size="14" />
+          Crawler
+        </div>
+      </button>
+      <button 
+        type="button"
+        @click="$emit('update:mode', 'map')"
+        :class="[
+          'px-4 py-2 rounded-full text-sm font-medium transition-all duration-300',
+          mode === 'map' 
+            ? 'bg-neutral-800 text-white shadow-lg border border-white/10' 
+            : 'text-neutral-500 hover:text-neutral-300'
+        ]"
+      >
+        <div class="flex items-center gap-2">
+          <Network :size="14" />
+          Mapper
+        </div>
+      </button>
+    </div>
+
     <!-- Glow effect -->
     <div class="absolute -inset-0.5 bg-gradient-to-r from-neutral-700 to-neutral-800 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
 
@@ -34,14 +68,15 @@
 </template>
 
 <script setup>
-import { ArrowRight, Loader2, Search } from 'lucide-vue-next';
+import { ArrowRight, Loader2, Search, FileText, Network } from 'lucide-vue-next';
 
 defineProps({
   url: String,
-  loading: Boolean
+  loading: Boolean,
+  mode: String
 });
 
-const emit = defineEmits(['update:url', 'submit']);
+const emit = defineEmits(['update:url', 'submit', 'update:mode']);
 
 const handleSubmit = () => {
   emit('submit');

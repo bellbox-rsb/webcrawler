@@ -1,5 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.crawler import crawl_url
+from app.services.mapper import map_url
 
 main = Blueprint('main', __name__)
 
@@ -17,8 +18,14 @@ def crawl():
         return jsonify({"success": False, "error": "Please provide a URL in the request body"}), 400
     
     url = data['url']
+    mode = data.get('mode', 'crawl')
+
     try:
-        result = crawl_url(url)
+        if mode == 'map':
+            result = map_url(url)
+        else:
+            result = crawl_url(url)
+
         if result.get('success'):
             return jsonify(result), 200
         else:

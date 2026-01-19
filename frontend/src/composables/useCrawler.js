@@ -7,6 +7,7 @@ import axios from 'axios';
 
 export function useCrawler() {
     const url = ref('');
+    const mode = ref('crawl');
     const loading = ref(false);
     const data = ref(null);
     const error = ref(null);
@@ -15,9 +16,10 @@ export function useCrawler() {
         data.value = null;
         error.value = null;
         url.value = '';
+        mode.value = 'crawl';
     };
 
-    const crawl = async (inputUrl) => {
+    const crawl = async (inputUrl, inputMode = 'crawl') => {
         if (!inputUrl) {
             error.value = 'Please enter a URL';
             return;
@@ -37,7 +39,8 @@ export function useCrawler() {
 
         try {
             const response = await axios.post('/crawl', {
-                url: inputUrl
+                url: inputUrl,
+                mode: inputMode
             });
 
             if (response.data.success) {
@@ -54,6 +57,7 @@ export function useCrawler() {
 
     return {
         url,
+        mode,
         loading,
         data,
         error,
