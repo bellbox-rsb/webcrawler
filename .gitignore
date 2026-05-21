@@ -23,3 +23,13 @@ instance/
 dist/
 build/
 *.egg-info/
+
+# Node.js
+node_modules/
+.npm
+package-lock.json
+.eslintcache
+.parcel-cache
+.cache
+.vite
+

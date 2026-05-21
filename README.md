@@ -1,14 +1,16 @@
-# 🪏 WebCrawler (v2.0)
+# 🪏 AetherCrawler (v3.0)
 
 <div align="center" markdown="1">
 
-![Version](https://img.shields.io/badge/version-2.0-emerald.svg)
+![Version](https://img.shields.io/badge/version-3.0-emerald.svg)
 ![License](https://img.shields.io/badge/license-MIT-blue.svg)
-![Python](https://img.shields.io/badge/python-3.9%2B-blueviolet)
+![Node.js](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
 <p align="center">
-  <b>Turn the Web into Data.</b><br>
-  A premium, AI-ready web crawler that extracts clean Markdown and detects technology stacks.
+  <b>Turn the Web into Design Systems & Markdown.</b><br>
+  A premium, high-fidelity web crawler that extracts design tokens, page layout parameters, parses clean clutter-free Markdown, and scans technologies.
 </p>
 
 </div>
@@ -17,25 +19,48 @@
 
 ## ✨ Core Features
 
-### 🚀 **Deep Extraction Engine**
--   **Pure Markdown**: Converts chaotic HTML into clean, semantic Markdown suitable for LLM training or notes.
--   **Smart Cleaning**: Automatically removes ads, popups, navigation bars, and footers.
--   **Relative Link Resolution**: Ensures all images and links work by converting relative paths to absolute URLs.
+### 🚀 **Deep Design Token Extraction**
+-   **CSS Variable Harvester**: Automatically extracts colors, fonts, sizing, weights, and spacing properties.
+-   **Role Classifier**: Categorizes colors into active design system roles (Primary, Brand, Accent, Neutral, Slate).
+-   **Assets Masonry**: Compiles raw inline SVGs and image references into copyable, responsive assets galleries.
 
-### 🧠 **Tech Stack Intelligence**
--   **Heuristic Detection**: Identifies frontend frameworks (React, Vue, Next.js, Tailwind) even when obfuscated.
--   **Server-Side Analysis**: Detects underlying server technologies matches via `builtwith`.
--   **Visual Grid**: Results are displayed in a modern, "Nexus" style grid card layout.
+### 🧠 **Tech Stack & Platform Intelligence**
+-   **Heuristic Signature Checks**: Local regex fingerprint scanner checks page DOM triggers for frameworks (React, Vue, Angular, Svelte), stylesheets (Tailwind, Bootstrap), and CMS (WordPress, PHP).
+-   **Infrastructure Headers Scan**: Inspects powered-by, servers, and server proxy headers (Cloudflare, Nginx, Apache, Express) for zero-latency detection.
+-   **Branded Badges Grid**: Visualizes detected platforms on a sleek glassmorphic overview using high-fidelity Shields.io indicators.
 
-### 🎨 **Premium "Nexus" UI**
--   **Tailwind CSS**: Custom-built dark theme with noise textures and glassmorphism.
--   **Responsive Design**: Fully optimized for Mobile, Tablet, and Desktop.
--   **Interactive Editor**: Integrated **QuillJS** editor to refine your content before export.
+### 📄 **Clean HTML-to-Markdown Engine**
+-   **Semantic Stripper**: Excludes layout noise (`script`, `style`, `nav`, `footer`, `header`, `noscript`, `iframe`) to retrieve pure article and section content.
+-   **Relative Path Resolver**: Rewrites relative paths in image sources and links to absolute, fully-qualified web resources.
+-   **Dual-Panel Previews**: Displays single-page crawler metadata vs. extracted Markdown in a tabbed dialog with a copy-to-clipboard button.
 
-### 🛠️ **Developer Extensions**
--   **Vercel Ready**: Configured for instant serverless deployment.
--   **API Structure**: Modular `crawler.py` service easy to integrate into other apps.
--   **Live Docs**: Documentation served directly within the app at `/docs`.
+### ☁️ **Vercel Serverless Ready**
+-   **Zero-Dependency Execution**: Free from heavyweight python scrapers or databases that trigger serverless cold starts and timeouts.
+-   **Vite + Express Bundle**: Standardized Vite frontend compiler + Express server API wrapper fully deployable on Vercel.
+
+---
+
+## 📂 Project Structure
+
+```
+├── api/
+│   └── index.js            # Vercel serverless entry point
+├── public/                 # Production-built assets & index.html
+├── src/
+│   ├── App.jsx             # Beautiful glassmorphic React dashboard
+│   ├── components/
+│   │   └── ui/             # Core interactive layout components (Dialog, Tabs, Slider, etc.)
+│   ├── lib/
+│   │   ├── utils.js        # Design-token Tailwind merging helper
+│   │   └── techBadges.js   # Shields.io badge mapping helper
+│   └── index.css           # Core styling declarations
+├── crawler.js              # Cheerio-based scraping & Turndown Markdown services
+├── server-app.js           # Express backend router & local file export endpoint
+├── server.js               # Dev / Production server starter
+├── vite.config.js          # Vite assets bundler & backend server proxy configuration
+├── vercel.json             # Vercel deployment settings mapping
+└── package.json            # Node.js dependencies configuration
+```
 
 ---
 
@@ -49,32 +74,23 @@
     cd webcrawler
     ```
 
-2.  **Install Dependencies**
+2.  **Install Node Dependencies**
     ```bash
-    pip install -r requirements.txt
+    npm install
     ```
 
-3.  **Run the App**
+3.  **Run Development Environment**
     ```bash
-    python run.py
+    # Starts the local backend server (port 3000) and the Vite frontend dev server (port 5173)
+    npm run dev & npm run server
     ```
-    Access the app at `http://127.0.0.1:5001`.
+    Access the interactive dashboard at `http://localhost:5173`.
 
-### ☁️ Deploy to Vercel
-
-This project is configured for Vercel.
-
-1.  Install Vercel CLI: `npm i -g vercel`
-2.  Run `vercel` in the project directory.
-
----
-
-## 📚 Documentation
-
-Detailed documentation is available in the `docs` folder or via the **Documentation** link in the app.
-
--   [**Tech Stack Deep Dive**](docs/tech.md): Architecture, libraries, and design patterns.
--   [**Changelog**](docs/changelog.md): History of version updates.
+4.  **Production Compilation**
+    ```bash
+    npm run build
+    npm run start
+    ```
 
 ---
 
